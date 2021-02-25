@@ -33,7 +33,7 @@ class MSYS2Conan(ConanFile):
 
     def _download(self, url):
         from six.moves.urllib.parse import urlparse
-        filename = os.path.basename(urlparse(url[0]).path)
+        filename = os.path.basename(urlparse(url).path)
         tools.download(url=url, filename=filename)
         return filename
 
