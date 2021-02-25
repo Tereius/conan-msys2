@@ -42,7 +42,6 @@ class MSYS2Conan(ConanFile):
         return "msys64" if self.settings.arch_build == "x86_64" else "msys32"
 
     def build(self):
-        arch = 0 if self.settings.arch_build == "x86" else 1  # index in the sources list
         url = ""
         if self.settings.arch_build == "x86":
             url = "http://repo.msys2.org/distrib/i686/msys2-base-i686-%s.tar.xz" % self.version
