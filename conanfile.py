@@ -47,7 +47,7 @@ class MSYS2Conan(ConanFile):
         if self.settings.arch_build == "x86":
             url = "http://repo.msys2.org/distrib/i686/msys2-base-i686-%s.tar.xz" % self.version
         elif self.settings.arch_build == "x86_64":
-            url = "https://sourceforge.net/projects/msys2/files/Base/i686/msys2-base-i686-%s.tar.xz" % self.version
+            url = "http://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-%s.tar.xz" % self.version
         filename = self._download(url)
         tar_name = filename.replace(".xz", "")
         self.run("7z.exe x {0}".format(filename))
