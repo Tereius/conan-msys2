@@ -31,10 +31,10 @@ class MSYS2Conan(ConanFile):
         # source files downloaded will be different based on architecture or OS
         pass
 
-    def _download(self, url, sha256):
+    def _download(self, url):
         from six.moves.urllib.parse import urlparse
         filename = os.path.basename(urlparse(url[0]).path)
-        tools.download(url=url, filename=filename, sha256=sha256)
+        tools.download(url=url, filename=filename)
         return filename
 
     @property
@@ -43,7 +43,12 @@ class MSYS2Conan(ConanFile):
 
     def build(self):
         arch = 0 if self.settings.arch_build == "x86" else 1  # index in the sources list
-        filename = self._download(**self.conan_data["sources"][self.version][arch])
+        url = ""
+        if self.settings.arch_build == "x86":
+            url = "http://repo.msys2.org/distrib/i686/msys2-base-i686-%s.tar.xz" % self.version
+        elif self.settings.arch_build == "x86_64":
+            url = "https://sourceforge.net/projects/msys2/files/Base/i686/msys2-base-i686-%s.tar.xz" % self.version
+        filename = self._download(url)
         tar_name = filename.replace(".xz", "")
         self.run("7z.exe x {0}".format(filename))
         self.run("7z.exe x {0}".format(tar_name))
