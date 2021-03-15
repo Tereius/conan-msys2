@@ -11,8 +11,8 @@ class MSYS2Conan(ConanFile):
     homepage = "http://www.msys2.org"
     license = "MSYS license"
     topics = ("conan", "msys", "unix", "subsystem")
-    version = "20200517"
-    build_requires = "7z_installer/1.0@conan/stable"
+    version = "20210228"
+    build_requires = "7zip/19.00"
     short_paths = True
     options = {"exclude_files": "ANY",  # Comma separated list of file patterns to exclude from the package
                "packages": "ANY",  # Comma separated
@@ -20,11 +20,13 @@ class MSYS2Conan(ConanFile):
     default_options = {"exclude_files": "*/link.exe",
                        "packages": "base-devel,binutils,gcc",
                        "additional_packages": None}
-    settings = "os_build", "arch_build"
+    settings = "os", "arch"
 
     def configure(self):
-        if self.settings.os_build != "Windows":
+        if self.settings.os != "Windows":
             raise ConanInvalidConfiguration("Only Windows supported")
+        if self.settings.arch == "x86":
+            raise ConanInvalidConfiguration("Only arch x86_64 supported")
 
     def source(self):
         # build tools have to download files in build method when the
@@ -42,11 +44,7 @@ class MSYS2Conan(ConanFile):
         return "msys64" if self.settings.arch_build == "x86_64" else "msys32"
 
     def build(self):
-        url = ""
-        if self.settings.arch_build == "x86":
-            url = "http://repo.msys2.org/distrib/i686/msys2-base-i686-%s.tar.xz" % self.version
-        elif self.settings.arch_build == "x86_64":
-            url = "http://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-%s.tar.xz" % self.version
+        url = "http://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-%s.tar.xz" % self.version
         filename = self._download(url)
         tar_name = filename.replace(".xz", "")
         self.run("7z.exe x {0}".format(filename))
@@ -97,4 +95,3 @@ class MSYS2Conan(ConanFile):
 
         self.output.info("Appending PATH env var with : " + msys_bin)
         self.env_info.path.append(msys_bin)
-
