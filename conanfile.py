@@ -41,7 +41,7 @@ class MSYS2Conan(ConanFile):
 
     @property
     def _msys_dir(self):
-        return "msys64" if self.settings.arch_build == "x86_64" else "msys32"
+        return "msys64" if self.settings.arch == "x86_64" else "msys32"
 
     def build(self):
         url = "http://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-%s.tar.xz" % self.version
