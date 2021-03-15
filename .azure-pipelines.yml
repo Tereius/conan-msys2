@@ -29,6 +29,7 @@ jobs:
         CONAN_BASE_PROFILE_ARCHBUILD: "x86_64",
         CONAN_BASE_PROFILE_COMPILER: "Visual Studio",
         CONAN_BASE_PROFILE_COMPILER_VERSION: "15",
+        SKIP_INSTALL_ARTIFACTS: "True"
       }
 
 - job: Upload
