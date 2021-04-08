@@ -18,7 +18,7 @@ class MSYS2Conan(ConanFile):
                "packages": "ANY",  # Comma separated
                "additional_packages": "ANY"}    # Comma separated
     default_options = {"exclude_files": "*/link.exe",
-                       "packages": "base-devel,binutils,gcc",
+                       "packages": "base-devel,mingw-w64-x86_64-toolchain",
                        "additional_packages": None}
     settings = "os", "arch"
 
